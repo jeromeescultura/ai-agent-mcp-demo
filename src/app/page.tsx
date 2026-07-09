@@ -119,6 +119,56 @@ const takeaways = [
   },
 ];
 
+const browsers = [
+  { icon: "trip_origin", label: "Chrome" },
+];
+
+const failureModes = [
+  {
+    icon: "psychology_alt",
+    title: "Hallucination",
+    text: "Confidently invents facts, APIs, or file paths that don't exist. The output looks right — that's what makes it dangerous.",
+  },
+  {
+    icon: "sync_problem",
+    title: "Infinite Loops",
+    text: "Gets stuck retrying the same failed action, convinced the next attempt will finally work.",
+  },
+  {
+    icon: "payments",
+    title: "Cost & Latency",
+    text: "Every reasoning step burns tokens and time. A runaway loop isn't just slow — it's expensive.",
+  },
+  {
+    icon: "gpp_bad",
+    title: "Prompt Injection",
+    text: "Malicious text inside a page or file can hijack the agent's instructions. This is the security story that matters.",
+  },
+];
+
+const familiarAgents = [
+  {
+    icon: "code",
+    title: "Copilot Agent Mode",
+    text: "Plans, edits across multiple files, runs your tests, and fixes its own errors.",
+  },
+  {
+    icon: "terminal",
+    title: "Claude Code / Cursor",
+    text: "Terminal- and editor-native agents that refactor and ship real changes.",
+  },
+  {
+    icon: "bug_report",
+    title: "Agentic Test Writing",
+    text: "Generates and runs unit and E2E tests, then iterates until they pass.",
+  },
+  {
+    icon: "rate_review",
+    title: "Automated PR Review",
+    text: "Reads the diff, flags bugs, and suggests fixes before a human even looks.",
+  },
+];
+
 function Icon({ name, className }: { name: string; className?: string }) {
   return (
     <span className={`material-symbols-outlined ${className ?? ""}`}>
@@ -143,6 +193,20 @@ export default function Home() {
               Part 01 of 02
             </Badge>
           </div>
+        </section>
+
+        {/* Warm-up poll */}
+        <section className="flex flex-col items-center border-t-2 border-black py-stack-xl text-center">
+          <Badge className="line-border rounded-none bg-transparent px-4 py-1 font-label-bold uppercase text-foreground">
+            Warm-up · Show of Hands
+          </Badge>
+          <h2 className="font-headline-xl mt-stack-md max-w-5xl">
+            Who&apos;s used an AI agent to write code this week?
+          </h2>
+          <p className="mt-stack-md max-w-2xl font-body-lg text-secondary-ink">
+            Hands up. Keep them up if it actually shipped and if it did
+            something you didn&apos;t fully check afterwards.
+          </p>
         </section>
 
         {/* The Hook */}
@@ -282,6 +346,43 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Cross-Browser Demo */}
+        <section className="py-stack-xl">
+          <div className="mb-stack-md flex flex-col items-center text-center">
+            <Badge className="line-border rounded-none bg-transparent px-4 py-1 font-label-bold uppercase text-foreground">
+              Live Demo · Part 02 Preview
+            </Badge>
+            <h3 className="mt-6 font-headline-lg">
+              The Playwright Agent, Cross-Browser
+            </h3>
+            <p className="mt-6 max-w-2xl font-body-lg text-secondary-ink">
+              Watch the agent test this very website in Chrome.
+            </p>
+          </div>
+
+          <div className="mb-8 flex flex-wrap justify-center gap-4">
+            {browsers.map((b) => (
+              <div
+                key={b.label}
+                className="line-border flex items-center gap-3 px-6 py-3"
+              >
+                <Icon name={b.icon} />
+                <span className="font-label-bold uppercase">{b.label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Recorded Playwright responsive walkthrough (desktop → tablet → mobile) */}
+          <video
+            className="line-border aspect-video w-full bg-surface object-contain"
+            src="/playwright-responsive-demo.webm"
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
+        </section>
+
         {/* Five Ingredients Table */}
         <section className="py-stack-lg">
           <h3 className="mb-stack-md text-center font-headline-lg">
@@ -345,6 +446,29 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Where Agents Break */}
+        <section className="py-stack-xl">
+          <div className="mb-16 flex flex-col items-center text-center">
+            <h3 className="font-headline-lg">Where Agents Break</h3>
+            <p className="mt-6 max-w-2xl font-body-lg text-secondary-ink">
+              The junior teammate has bad days too. Knowing the failure modes is
+              how you design around them.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-gutter md:grid-cols-2 lg:grid-cols-4">
+            {failureModes.map((f) => (
+              <div
+                key={f.title}
+                className="line-border flex flex-col gap-4 p-8"
+              >
+                <Icon name={f.icon} className="text-4xl" />
+                <h4 className="font-label-bold uppercase">{f.title}</h4>
+                <p className="text-secondary-ink">{f.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Multi-Agent Pipeline */}
         <section className="py-stack-lg">
           <div className="flex flex-col items-center">
@@ -368,6 +492,39 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Agents You Already Use */}
+        <section className="py-stack-xl">
+          <div className="mb-16 flex flex-col items-center text-center">
+            <h3 className="font-headline-lg">Agents You Already Use</h3>
+            <p className="mt-6 max-w-2xl font-body-lg text-secondary-ink">
+              This isn&apos;t the future — it&apos;s your Tuesday. If you shipped
+              code this week, you probably worked with one.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-gutter md:grid-cols-2">
+            {familiarAgents.map((a) => (
+              <div
+                key={a.title}
+                className="line-border flex gap-6 p-10"
+              >
+                <Icon name={a.icon} className="text-4xl" />
+                <div>
+                  <h4 className="mb-2 font-label-bold uppercase">{a.title}</h4>
+                  <p className="text-secondary-ink">{a.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mx-auto mt-stack-md max-w-3xl text-center font-body-lg text-secondary-ink">
+            What connects them?{" "}
+            <span className="font-bold text-foreground">
+              MCP — the Model Context Protocol
+            </span>
+            : think USB-C for agents. One standard way to plug tools and data
+            into any agent.
+          </p>
+        </section>
+
         {/* Junior Teammate Metaphor */}
         <section className="-mx-page bg-black px-page py-stack-lg text-white">
           <div className="mx-auto max-w-4xl py-stack-md text-center">
@@ -386,7 +543,7 @@ export default function Home() {
         </section>
 
         {/* Key Takeaways */}
-        <section className="mb-stack-lg border-b-2 border-black py-stack-xl">
+        <section className="mb-stack-lg py-stack-xl">
           <h3 className="mb-16 font-headline-lg">Key Takeaways</h3>
           <div className="grid grid-cols-1 gap-stack-md md:grid-cols-2">
             {takeaways.map((t) => (
@@ -396,6 +553,22 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </section>
+
+         {/* Quiz link */}
+        <section className="flex justify-center py-stack-xl">
+          <a
+            href="https://www.google.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="line-border flex flex-col items-center gap-6 bg-transparent p-12 text-center text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background"
+          >
+            <Icon name="quiz" className="text-5xl" />
+            <h4 className="font-headline-lg" style={{ fontSize: 32, lineHeight: 1 }}>
+              Take the Short Assessment Quiz
+            </h4>
+            <span className="font-label-bold uppercase">Start Now</span>
+          </a>
         </section>
       </main>
 
