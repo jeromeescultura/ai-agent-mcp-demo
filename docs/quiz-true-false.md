@@ -35,7 +35,7 @@ Mark each statement **TRUE** or **FALSE**.
 
 14. The Junior Teammate metaphor describes agents as pure magic that require no boundaries or oversight.
 
-15. One key takeaway is that we are shifting from "Software as a Service" (SaaS) toward "Service as a Software" (agentic automation).
+15. Common agent failure modes — such as hallucination, infinite loops, and prompt injection — should be designed around with guardrails like validation, budgets, and human-in-the-loop.
 
 ---
 
@@ -55,4 +55,4 @@ Mark each statement **TRUE** or **FALSE**.
 12. **False** — Agents provide consistency and *eliminate* variance in repetitive tasks.
 13. **True** — Researcher → Writer → Critic → Publisher.
 14. **False** — They are *not* magic; they need clear boundaries, objectives, and occasional oversight.
-15. **True** — The future shift is from SaaS to "Service as a Software."
+15. **True** — Agents fail in predictable ways (hallucination, loops, prompt injection), so you design guardrails around them.

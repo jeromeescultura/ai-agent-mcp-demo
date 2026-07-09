@@ -265,7 +265,7 @@ Let me leave you with four things to carry out of this room:
 1. **Structural Shift** — Stop thinking about models as search engines. Start thinking about them as _operating systems for logic_.
 2. **Composability** — The power of agents lies in chaining them together to solve problems too big for a single context window.
 3. **Tool Dependency** — An agent is only as good as the tools you give it. _Interface design is now agent design._
-4. **The Future** — We're moving from "Software as a Service" (SaaS) to **"Service as a Software"** — agentic automation.
+4. **Guardrails** — Agents fail in predictable ways. Design around the failure modes with validation, budgets, and human-in-the-loop.
 
 ---
 

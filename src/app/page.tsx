@@ -114,8 +114,8 @@ const takeaways = [
     text: "An agent is only as good as the tools you give it. Interface design is now agent design.",
   },
   {
-    n: "04 / THE FUTURE",
-    text: 'We are moving from a world of "Software as a Service" (SaaS) to "Service as a Software" (Agentic Automation).',
+    n: "04 / GUARDRAILS",
+    text: "Agents fail in predictable ways. Design around the failure modes with validation, budgets, and human-in-the-loop.",
   },
 ];
 
