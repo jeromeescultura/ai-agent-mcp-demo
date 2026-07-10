@@ -459,7 +459,7 @@ export default function Home() {
          {/* Quiz link */}
         <section className="flex justify-center py-stack-xl">
           <a
-            href="https://www.google.com"
+            href="https://wayground.com/join?gc=920287&source=liveDashboard"
             target="_blank"
             rel="noopener noreferrer"
             className="line-border flex flex-col items-center gap-6 bg-transparent p-12 text-center text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background"
