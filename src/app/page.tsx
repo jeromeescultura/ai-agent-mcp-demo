@@ -1,14 +1,6 @@
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
 const modelTraits = [
   { icon: "chat_bubble", label: "Stateless prediction" },
@@ -31,47 +23,66 @@ const loopStages = [
   { icon: "gavel", label: "Decide" },
 ];
 
-const executionSteps = [
+const projectAgents = [
   {
-    n: "01",
-    text: "Browser Initialization: Agent spins up a headless Chromium instance via Playwright.",
+    icon: "rocket_launch",
+    title: "CI/CD Agent",
+    role: "GitHub Actions & Vercel",
+    text: "Reads the app source and existing workflows, then writes and updates our GitHub Actions pipelines. It keeps builds inside CI so security scanning runs every time, then deploys to Vercel.",
   },
   {
-    n: "02",
-    text: 'DOM Analysis: LLM parses the simplified HTML tree to identify the "User" table.',
+    icon: "web",
+    title: "Front-End UI Agent",
+    role: "Components & responsive fixes",
+    text: "Handles UI fixes, component work, and responsive and accessibility issues across the monorepo. It validates its own changes live in the browser with Playwright before calling the job done.",
   },
-  { n: "03", text: 'Action: Clicks "Edit" next to the target name.' },
   {
-    n: "04",
-    text: "Validation: Agent observes the screen change and confirms the role has been updated before exiting.",
+    icon: "merge",
+    title: "PR Prep Agent",
+    role: "Branch, commit, pull request",
+    text: "Creates the feature branch, commits with conventional messages, opens the pull request, comments on the linked issue, and moves the ticket to In Review on the project board.",
+  },
+  {
+    icon: "visibility",
+    title: "Visual QA Agent",
+    role: "Design & a11y verification",
+    text: "Verifies components in Storybook and on live pages against the Figma design and the spec, checking variants, states, responsive behavior, accessibility, and cross-browser rendering.",
   },
 ];
 
-const ingredients = [
+const mcpServers = [
   {
-    name: "1. Perception",
-    role: "Ingesting data (Text, Vision, Audio)",
-    layer: "Multimodal LLM",
+    icon: "hub",
+    title: "GitHub MCP",
+    text: "The PR Prep agent uses it to open pull requests, comment on issues, and update statuses, no manual Git ceremony.",
   },
   {
-    name: "2. Brain",
-    role: "Decision making & reasoning",
-    layer: "Inference Loop",
+    icon: "smart_display",
+    title: "Playwright MCP",
+    text: "The Front-End and Visual QA agents drive real browsers through it, separate servers for Chromium, Firefox, and WebKit.",
   },
   {
-    name: "3. Tools",
-    role: "Interacting with the world",
-    layer: "Function Calling / APIs",
+    icon: "description",
+    title: "Atlassian MCP",
+    text: "Visual QA pulls the Functional Spec straight from Confluence to check the build against acceptance criteria.",
   },
   {
-    name: "4. Memory",
-    role: "Remembering past actions",
-    layer: "RAG / Redis Cache",
+    icon: "brush",
+    title: "Figma MCP",
+    text: "Visual QA reads design context and screenshots from Figma to compare the rendered component to the source design.",
+  },
+];
+
+const modelTiers = [
+  {
+    tag: "Complex work",
+    model: "Claude Opus 4.8",
+    text: "Multi-file component builds, tricky refactors, and full PR workflows. Highest capability, and the highest token cost.",
   },
   {
-    name: "5. Grounding",
-    role: "Sticking to the truth/facts",
-    layer: "Context Injection",
+    tag: "Simple fixes",
+    model: "Claude Haiku",
+    text: "Typos, small style tweaks, quick one-file changes. We drop to a cheaper, faster model to keep cost down.",
   },
 ];
 
@@ -93,29 +104,22 @@ const benefits = [
   },
 ];
 
-const pipeline = [
-  { n: "01. RESEARCHER", text: "Gathers raw data" },
-  { n: "02. WRITER", text: "Drafts initial content" },
-  { n: "03. CRITIC", text: "Fact-checks and edits" },
-  { n: "04. PUBLISHER", text: "Formats and deploys" },
-];
-
 const takeaways = [
   {
-    n: "01 / STRUCTURAL SHIFT",
-    text: "Stop thinking about models as search engines. Start thinking about them as operating systems for logic.",
+    n: "01 / SPECIALIZED AGENTS",
+    text: "We split the work across focused agents, CI/CD, front-end fixes, PR prep, and visual QA, each owning one part of the workflow.",
   },
   {
-    n: "02 / COMPOSABILITY",
-    text: "The power of agents lies in their ability to be chained together to solve problems too big for a single context window.",
+    n: "02 / MCP CONNECTS EVERYTHING",
+    text: "MCP let our agents plug into GitHub, Playwright, Confluence, and Figma without building a custom integration for each one.",
   },
   {
-    n: "03 / TOOL DEPENDENCY",
-    text: "An agent is only as good as the tools you give it. Interface design is now agent design.",
+    n: "03 / HAND OVER THE LOOP",
+    text: "We let agents build, test, and even open and update PRs end-to-end, with a human reviewing at the boundaries.",
   },
   {
-    n: "04 / GUARDRAILS",
-    text: "Agents fail in predictable ways. Design around the failure modes with validation, budgets, and human-in-the-loop.",
+    n: "04 / MATCH MODEL TO TASK",
+    text: "Opus 4.8 for complex work, a cheaper model like Haiku for simple fixes. Capability and cost are a dial you control.",
   },
 ];
 
@@ -127,7 +131,7 @@ const failureModes = [
   {
     icon: "psychology_alt",
     title: "Hallucination",
-    text: "Confidently invents facts, APIs, or file paths that don't exist. The output looks right — that's what makes it dangerous.",
+    text: "Confidently invents facts, APIs, or file paths that don't exist. The output looks right, that's what makes it dangerous.",
   },
   {
     icon: "sync_problem",
@@ -137,35 +141,12 @@ const failureModes = [
   {
     icon: "payments",
     title: "Cost & Latency",
-    text: "Every reasoning step burns tokens and time. A runaway loop isn't just slow — it's expensive.",
+    text: "Every reasoning step burns tokens and time. A runaway loop isn't just slow, it's expensive.",
   },
   {
     icon: "gpp_bad",
     title: "Prompt Injection",
     text: "Malicious text inside a page or file can hijack the agent's instructions. This is the security story that matters.",
-  },
-];
-
-const familiarAgents = [
-  {
-    icon: "code",
-    title: "Copilot Agent Mode",
-    text: "Plans, edits across multiple files, runs your tests, and fixes its own errors.",
-  },
-  {
-    icon: "terminal",
-    title: "Claude Code / Cursor",
-    text: "Terminal- and editor-native agents that refactor and ship real changes.",
-  },
-  {
-    icon: "bug_report",
-    title: "Agentic Test Writing",
-    text: "Generates and runs unit and E2E tests, then iterates until they pass.",
-  },
-  {
-    icon: "rate_review",
-    title: "Automated PR Review",
-    text: "Reads the diff, flags bugs, and suggests fixes before a human even looks.",
   },
 ];
 
@@ -204,8 +185,7 @@ export default function Home() {
             Who&apos;s used an AI agent to write code this week?
           </h2>
           <p className="mt-stack-md max-w-2xl font-body-lg text-secondary-ink">
-            Hands up. Keep them up if it actually shipped and if it did
-            something you didn&apos;t fully check afterwards.
+            Hit the raise-hand button in Teams or drop a reaction in the chat.
           </p>
         </section>
 
@@ -300,52 +280,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Case Study: Playwright Agent */}
-        <section className="py-stack-xl">
-          <div className="grid grid-cols-1 gap-gutter lg:grid-cols-12">
-            <div className="lg:col-span-4">
-              <h3 className="sticky top-32 font-headline-lg">
-                Case Study: The Playwright Agent
-              </h3>
-            </div>
-            <div className="space-y-12 lg:col-span-8">
-              <div className="line-border bg-white p-8">
-                <div className="mb-6 flex items-center justify-between">
-                  <span className="font-label-bold uppercase">Agent Input</span>
-                  <span className="font-mono text-xs text-secondary-ink">
-                    0.4s Latency
-                  </span>
-                </div>
-                <p className="border border-black/10 bg-surface p-4 font-mono text-lg">
-                  &quot;Navigate to dashboard, find the user named &apos;A.
-                  Lovelace&apos;, and change their role to
-                  &apos;Admin&apos;.&quot;
-                </p>
-              </div>
-              <div className="line-border p-8">
-                <h4 className="mb-4 font-label-bold uppercase">
-                  Execution Steps
-                </h4>
-                <ol className="space-y-4">
-                  {executionSteps.map((step, i) => (
-                    <li
-                      key={step.n}
-                      className={`flex gap-4 ${
-                        i < executionSteps.length - 1
-                          ? "border-b border-black/10 pb-4"
-                          : ""
-                      }`}
-                    >
-                      <span className="font-bold">{step.n}</span>
-                      <span>{step.text}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Cross-Browser Demo */}
         <section className="py-stack-xl">
           <div className="mb-stack-md flex flex-col items-center text-center">
@@ -383,46 +317,86 @@ export default function Home() {
           />
         </section>
 
-        {/* Five Ingredients Table */}
-        <section className="py-stack-lg">
-          <h3 className="mb-stack-md text-center font-headline-lg">
-            Anatomy of an Agent
-          </h3>
-          <div className="no-scrollbar w-full overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow className="border-b-2 border-black hover:bg-transparent">
-                  <TableHead className="px-4 py-6 font-label-bold uppercase text-foreground">
-                    Ingredient
-                  </TableHead>
-                  <TableHead className="px-4 py-6 font-label-bold uppercase text-foreground">
-                    Role
-                  </TableHead>
-                  <TableHead className="px-4 py-6 font-label-bold uppercase text-foreground">
-                    Technical Layer
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {ingredients.map((row, i) => (
-                  <TableRow
-                    key={row.name}
-                    className={`hover:bg-transparent ${
-                      i < ingredients.length - 1 ? "border-b-2 border-black" : ""
-                    }`}
-                  >
-                    <TableCell className="px-4 py-8 font-bold">
-                      {row.name}
-                    </TableCell>
-                    <TableCell className="px-4 py-8">{row.role}</TableCell>
-                    <TableCell className="px-4 py-8 text-secondary-ink">
-                      {row.layer}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+        {/* The Four Agents We Built */}
+        <section className="py-stack-xl">
+          <div className="mb-16 flex flex-col items-center text-center">
+            <Badge className="line-border rounded-none bg-transparent px-4 py-1 font-label-bold uppercase text-foreground">
+              From Our Last Project
+            </Badge>
+            <h3 className="mt-6 font-headline-lg">Four Agents We Built</h3>
+            <p className="mt-6 max-w-2xl font-body-lg text-secondary-ink">
+              Not theory, these are the custom agents we actually used to ship
+              work. Each one owns a slice of the workflow.
+            </p>
           </div>
+          <div className="grid grid-cols-1 gap-gutter md:grid-cols-2">
+            {projectAgents.map((a) => (
+              <div key={a.title} className="line-border flex flex-col gap-4 p-10">
+                <Icon name={a.icon} className="text-4xl" />
+                <div>
+                  <h4 className="font-label-bold uppercase">{a.title}</h4>
+                  <span className="font-mono text-xs text-secondary-ink">
+                    {a.role}
+                  </span>
+                </div>
+                <p className="text-secondary-ink">{a.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* MCP */}
+        <section className="py-stack-xl">
+          <div className="mb-16 flex flex-col items-center text-center">
+            <h3 className="font-headline-lg">MCP, How the Agents Connect</h3>
+            <p className="mt-6 max-w-2xl font-body-lg text-secondary-ink">
+              MCP, the Model Context Protocol, is USB-C for agents: one standard
+              way to plug tools and data into any agent. Our four agents leaned
+              on it constantly.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-gutter md:grid-cols-2 lg:grid-cols-4">
+            {mcpServers.map((m) => (
+              <div key={m.title} className="line-border flex flex-col gap-4 p-8">
+                <Icon name={m.icon} className="text-4xl" />
+                <h4 className="font-label-bold uppercase">{m.title}</h4>
+                <p className="text-secondary-ink">{m.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* How We Maximized Agents */}
+        <section className="py-stack-xl">
+          <div className="mb-16 flex flex-col items-center text-center">
+            <h3 className="font-headline-lg">How We Maximized Them</h3>
+            <p className="mt-6 max-w-2xl font-body-lg text-secondary-ink">
+              We were encouraged to hand the agent the whole loop, build the
+              component, test it, and even open the PR and keep its status and
+              comments up to date.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-gutter md:grid-cols-2">
+            {modelTiers.map((t) => (
+              <div key={t.model} className="line-border flex flex-col gap-4 p-10">
+                <span className="font-label-bold uppercase">{t.tag}</span>
+                <h4
+                  className="font-headline-lg"
+                  style={{ fontSize: 28, lineHeight: 1 }}
+                >
+                  {t.model}
+                </h4>
+                <p className="text-secondary-ink">{t.text}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mx-auto mt-stack-md max-w-3xl text-center font-body-lg text-secondary-ink">
+            The trick is matching the model to the task: reach for{" "}
+            <span className="font-bold text-foreground">Opus 4.8</span> when the
+            work is complex, and drop to a cheaper model like{" "}
+            <span className="font-bold text-foreground">Haiku</span> for simple
+            fixes to keep token cost in check.
+          </p>
         </section>
 
         {/* Why this matters */}
@@ -466,79 +440,6 @@ export default function Home() {
                 <p className="text-secondary-ink">{f.text}</p>
               </div>
             ))}
-          </div>
-        </section>
-
-        {/* Multi-Agent Pipeline */}
-        <section className="py-stack-lg">
-          <div className="flex flex-col items-center">
-            <h3 className="mb-stack-md text-center font-headline-lg">
-              The Multi-Agent Pipeline
-            </h3>
-            <div className="relative mb-12 h-px w-full bg-black">
-              <div className="absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-black" />
-              <div className="absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-black" />
-            </div>
-            <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-4">
-              {pipeline.map((p) => (
-                <div key={p.n} className="text-center">
-                  <div className="mb-4 font-label-bold">{p.n}</div>
-                  <p className="text-sm text-secondary-ink">
-                    {p.text}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Agents You Already Use */}
-        <section className="py-stack-xl">
-          <div className="mb-16 flex flex-col items-center text-center">
-            <h3 className="font-headline-lg">Agents You Already Use</h3>
-            <p className="mt-6 max-w-2xl font-body-lg text-secondary-ink">
-              This isn&apos;t the future — it&apos;s your Tuesday. If you shipped
-              code this week, you probably worked with one.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-gutter md:grid-cols-2">
-            {familiarAgents.map((a) => (
-              <div
-                key={a.title}
-                className="line-border flex gap-6 p-10"
-              >
-                <Icon name={a.icon} className="text-4xl" />
-                <div>
-                  <h4 className="mb-2 font-label-bold uppercase">{a.title}</h4>
-                  <p className="text-secondary-ink">{a.text}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <p className="mx-auto mt-stack-md max-w-3xl text-center font-body-lg text-secondary-ink">
-            What connects them?{" "}
-            <span className="font-bold text-foreground">
-              MCP — the Model Context Protocol
-            </span>
-            : think USB-C for agents. One standard way to plug tools and data
-            into any agent.
-          </p>
-        </section>
-
-        {/* Junior Teammate Metaphor */}
-        <section className="-mx-page bg-black px-page py-stack-lg text-white">
-          <div className="mx-auto max-w-4xl py-stack-md text-center">
-            <h3 className="mb-8 font-headline-lg">
-              The Junior Teammate Metaphor
-            </h3>
-            <p className="font-body-lg leading-relaxed text-white/80">
-              Treat an agent like an exceptionally fast, infinite-memory junior
-              teammate. They are capable of following complex instructions and
-              using tools, but they require clear boundaries, specific
-              objectives, and occasional oversight to ensure they don&apos;t
-              wander off track. They are not magic; they are advanced
-              deterministic software wrapped in probabilistic intelligence.
-            </p>
           </div>
         </section>
 
